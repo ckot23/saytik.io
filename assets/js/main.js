@@ -31,7 +31,7 @@ function fillContacts() {
   var text = { phone: cfg.phone, email: cfg.email, telegram: cfg.telegram };
 
   /* Схему ставим здесь, а не в настройках: без неё браузер считает
-     «+79000000000» относительным адресом и превращает в .../+79000000000. */
+     «+79054959612» относительным адресом и превращает в .../+79054959612. */
   var href = {
     phone: cfg.phoneHref ? "tel:" + String(cfg.phoneHref).replace(/[^\d+]/g, "") : "",
     email: cfg.email ? "mailto:" + cfg.email : "",

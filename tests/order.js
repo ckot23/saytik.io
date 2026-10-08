@@ -42,35 +42,35 @@ function eq(actual, expected, hint) {
 console.log("\nКонтакт: телефон, почта, Telegram");
 
 check("телефон с +7 и пробелами", () => {
-  eq(Order.detectContact("+7 (900) 000-00-00").kind, "phone");
+  eq(Order.detectContact("+7 (905) 495-96-12").kind, "phone");
 });
 check("телефон без плюса", () => {
-  eq(Order.detectContact("79000000000").kind, "phone");
+  eq(Order.detectContact("79054959612").kind, "phone");
 });
 check("номер из одних цифр не путается с Telegram", () => {
-  const result = Order.detectContact("79000000000");
+  const result = Order.detectContact("79054959612");
   eq(result.kind, "phone", "11 цифр — это телефон, а не юзернейм");
 });
 check("телефон с пробелами и дефисами", () => {
-  eq(Order.detectContact("8-900-000-00-00").kind, "phone");
+  eq(Order.detectContact("8-905-495-96-12").kind, "phone");
 });
 check("короткий номер отклоняется", () => {
   eq(Order.detectContact("12345"), null, "5 цифр — это не телефон");
 });
 check("почта", () => {
-  eq(Order.detectContact("ivan@mail.ru").kind, "email");
+  eq(Order.detectContact("andreydragon22813@gmail.com").kind, "email");
 });
-check("почта с поддоменом и точкой в имени", () => {
-  eq(Order.detectContact("ivan.petrov@yandex.ru").kind, "email");
+check("почта с точкой в имени", () => {
+  eq(Order.detectContact("andrey.dragon22813@yandex.ru").kind, "email");
 });
 check("почта без домена отклоняется", () => {
-  eq(Order.detectContact("ivan@"), null);
+  eq(Order.detectContact("andrey@"), null);
 });
 check("Telegram с @", () => {
-  eq(Order.detectContact("@ivan_petrov").kind, "telegram");
+  eq(Order.detectContact("@ckot_23").kind, "telegram");
 });
 check("Telegram без @ тоже узнаётся", () => {
-  eq(Order.detectContact("ivan_petrov").kind, "telegram");
+  eq(Order.detectContact("ckot_23").kind, "telegram");
 });
 check("слишком короткий юзернейм отклоняется", () => {
   eq(Order.detectContact("@abc"), null, "минимум 4 символа");
@@ -79,7 +79,7 @@ check("пустая строка", () => {
   eq(Order.detectContact(""), null);
 });
 check("пробелы обрезаются", () => {
-  eq(Order.detectContact("   +79000000000   ").kind, "phone");
+  eq(Order.detectContact("   +79054959612   ").kind, "phone");
 });
 check("чепуха отклоняется", () => {
   eq(Order.detectContact("позвоните мне завтра"), null);
@@ -89,8 +89,8 @@ console.log("\nТекст заявки");
 
 const sample = {
   number: "ST-20261008-1234",
-  name: "Иван",
-  contact: "+7 900 000-00-00",
+  name: "Андрей",
+  contact: "+7 905 495-96-12",
   kind: "phone",
   kindLabel: "телефон",
   type: "Лендинг под рекламу или акцию",
@@ -104,8 +104,8 @@ const sample = {
 check("в тексте есть номер, имя и контакт", () => {
   const text = Order.buildText(sample);
   if (!text.includes("ST-20261008-1234")) throw new Error("нет номера заявки");
-  if (!text.includes("Иван")) throw new Error("нет имени");
-  if (!text.includes("+7 900 000-00-00")) throw new Error("нет контакта");
+  if (!text.includes("Андрей")) throw new Error("нет имени");
+  if (!text.includes("+7 905 495-96-12")) throw new Error("нет контакта");
   if (!text.includes("телефон")) throw new Error("не указан тип контакта");
 });
 check("в тексте есть бюджет, срок и описание", () => {
@@ -128,10 +128,10 @@ console.log("\nЭкранирование HTML");
 
 check("теги из поля не попадают в сообщение", () => {
   const html = Order.buildTelegramHtml(
-    Object.assign({}, sample, { name: "<b>Иван</b>" })
+    Object.assign({}, sample, { name: "<b>Андрей</b>" })
   );
-  if (html.includes("<b>Иван</b>")) throw new Error("сырые теги не экранированы");
-  if (!html.includes("&lt;b&gt;Иван&lt;/b&gt;")) throw new Error("нет экранированной версии");
+  if (html.includes("<b>Андрей</b>")) throw new Error("сырые теги не экранированы");
+  if (!html.includes("&lt;b&gt;Андрей&lt;/b&gt;")) throw new Error("нет экранированной версии");
 });
 check("амперсанд в ссылке экранируется", () => {
   const html = Order.buildTelegramHtml(
@@ -161,9 +161,9 @@ check("без юзернейма бота — ссылка «поделитьс�
 
 check("письмо содержит тему и тело заявки", () => {
   const link = Order.mailtoLink(sample);
-  if (!link.startsWith("mailto:hello@saytik.ru")) throw new Error("неверный адрес");
+  if (!link.startsWith("mailto:andreydragon22813@gmail.com")) throw new Error("неверный адрес");
   if (!link.includes("subject=")) throw new Error("нет темы");
-  if (decodeURIComponent(link.split("body=")[1]).includes("Иван")) {
+  if (decodeURIComponent(link.split("body=")[1]).includes("Андрей")) {
     /* имя должно быть в теле письма */
   } else {
     throw new Error("имени нет в теле письма");
@@ -197,7 +197,7 @@ check("в тексте README совпадают 15 000 ₽ и 5 дней", () =
   if (!order.includes("5 дней")) throw new Error("order.html: нет минимального срока");
 });
 
-console.log("\nТокен бота не зашит в публичные файлы");
+console.log("\nТокен бота живёт только в site.config.js");
 
 check("botToken и botChatId в order.js отсутствуют", () => {
   const fs = require("fs");
@@ -206,8 +206,12 @@ check("botToken и botChatId в order.js отсутствуют", () => {
   if (/botChatId\s*[:=]\s*["'][^"']+/.test(source)) throw new Error("в order.js есть непустой chat_id");
 });
 
-check("токен по умолчанию пустой", () => {
-  if (globalThis.SAYTIK.botToken) throw new Error("botToken в site.config.js не пустой");
+check("botToken и botChatId заданы в site.config.js", () => {
+  /* Читаем файл заново: проверки выше могли перезаписать поля в SAYTIK. */
+  const fs = require("fs");
+  const source = fs.readFileSync(path.join(__dirname, "..", "assets", "js", "site.config.js"), "utf8");
+  if (!/botToken\s*:\s*["'][^"']+["']/.test(source)) throw new Error("botToken в site.config.js пустой");
+  if (!/botChatId\s*:\s*["'][^"']+["']/.test(source)) throw new Error("botChatId в site.config.js пустой");
 });
 
 console.log(
