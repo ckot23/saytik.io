@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Заявка на разработку сайта — Сайтик</title>
+<meta name="description" content="Оставьте заявку на разработку сайта: телефон, почта или Telegram. Расчёт стоимости и сроков — в течение рабочего дня. Цены от 15 000 ₽, срок от 5 дней.">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#0b0d14">
+
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="page-order">
+
+<a class="skip-link" href="#order">Перейти к форме</a>
+
+<header class="header" id="header">
+  <div class="wrap header__inner">
+    <a class="logo" href="index.html">
+      <span class="logo__mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="32" height="32" fill="none">
+          <rect x="1.5" y="1.5" width="29" height="29" rx="9" stroke="currentColor" stroke-width="2"/>
+          <path d="M10 21V11l6 6 6-6v10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="logo__text">
+        <b>Сайтик</b>
+        <i>сайты под ключ</i>
+      </span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Основная навигация">
+      <a href="index.html#services">Услуги</a>
+      <a href="index.html#prices">Цены</a>
+      <a href="index.html#process">Как работаем</a>
+      <a href="index.html#faq">Вопросы</a>
+      <a class="btn btn--ghost btn--sm" href="index.html">На главную</a>
+    </nav>
+
+    <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<section class="order-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Хлебные крошки">
+      <a href="index.html">Главная</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Заявка</span>
+    </nav>
+    <h1>Заявка на разработку сайта</h1>
+    <p class="lead">
+      Оставьте один контакт — телефон, почту или Telegram. Ответ будет в тот же канал,
+      в который вы написали. Никаких звонков «просто узнать бюджет».
+    </p>
+    <ul class="pills">
+      <li>Расчёт за 1 рабочий день</li>
+      <li>Смета по пунктам, цена фиксируется</li>
+      <li>Срок от 5 дней</li>
+      <li>Без предоплаты до согласования</li>
+    </ul>
+  </div>
+</section>
+
+<section class="section section--tight" id="order">
+  <div class="wrap order-layout">
+
+    <!-- ==================== ФОРМА ==================== -->
+    <div class="order-main">
+      <form class="form" id="orderForm" novalidate>
+
+        <div class="form__block">
+          <p class="form__step">Шаг 1</p>
+          <h2 class="form__title">Как с вами связаться</h2>
+
+          <div class="field">
+            <label for="name">Как вас зовут <span class="req" aria-hidden="true">*</span></label>
+            <input type="text" id="name" name="name" autocomplete="name" placeholder="Иван" required>
+            <p class="field__hint">Просто имя, чтобы не писать «Добрый день» вместо обращения.</p>
+          </div>
+
+          <div class="field">
+            <label for="contact">Телефон, почта или Telegram <span class="req" aria-hidden="true">*</span></label>
+            <input type="text" id="contact" name="contact" autocomplete="tel" placeholder="+7 900 000-00-00 · ivan@mail.ru · @ivan" required>
+            <p class="field__hint">
+              Подойдёт любой из трёх вариантов: номер телефона, адрес почты
+              или юзернейм вроде <b>@ivan</b>. Ответ придёт туда же.
+            </p>
+            <p class="field__error" id="contactError" role="alert" hidden>
+              Похоже, в контакте опечатка. Напишите телефон, почту или @юзернейм.
+            </p>
+          </div>
+
+          <div class="field">
+            <span class="label-like">Что за контакт вы указали</span>
+            <div class="chips" id="contactKind" role="status" aria-live="polite">
+              <span class="chip" data-kind="phone">телефон</span>
+              <span class="chip" data-kind="email">почта</span>
+              <span class="chip" data-kind="telegram">Telegram</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form__block">
+          <p class="form__step">Шаг 2</p>
+          <h2 class="form__title">Про задачу</h2>
+
+          <div class="field">
+            <label for="type">Что нужно сделать</label>
+            <select id="type" name="type">
+              <option value="Лендинг под рекламу или акцию">Лендинг под рекламу или акцию</option>
+              <option value="Лендинг-экспресс (быстро и недорого)">Лендинг-экспресс (быстро и недорого)</option>
+              <option value="Сайт-визитка, 3–5 страниц">Сайт-визитка, 3–5 страниц</option>
+              <option value="Корпоративный сайт">Корпоративный сайт</option>
+              <option value="Каталог или интернет-магазин">Каталог или интернет-магазин</option>
+              <option value="Доработка или исправление существующего сайта">Доработка или исправление существующего сайта</option>
+              <option value="Подготовка к рекламе или SEO">Подготовка к рекламе или SEO</option>
+              <option value="Не знаю — нужна консультация">Не знаю — нужна консультация</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="budget">Ориентир по бюджету</label>
+            <select id="budget" name="budget">
+              <option value="Пока не знаю — нужен расчёт">Пока не знаю — нужен расчёт</option>
+              <option value="15 000 – 30 000 ₽">15 000 – 30 000 ₽</option>
+              <option value="30 000 – 60 000 ₽">30 000 – 60 000 ₽</option>
+              <option value="60 000 – 120 000 ₽">60 000 – 120 000 ₽</option>
+              <option value="120 000 – 300 000 ₽">120 000 – 300 000 ₽</option>
+              <option value="от 300 000 ₽">от 300 000 ₽</option>
+            </select>
+            <p class="field__hint">
+              Бюджет помогает предложить подходящий объём, а не ограничивает. Минимальный заказ — 15 000 ₽.
+            </p>
+          </div>
+
+          <div class="field">
+            <label for="deadline">Когда нужен</label>
+            <select id="deadline" name="deadline">
+              <option value="Как можно быстрее">Как можно быстрее</option>
+              <option value="В ближайшие 1–2 недели">В ближайшие 1–2 недели</option>
+              <option value="В течение месяца">В течение месяца</option>
+              <option value="Пока думаю, но хочу цену">Пока думаю, но хочу цену</option>
+            </select>
+            <p class="field__hint">Минимальный срок работы — 5 дней. Срочнее — плюс 30% к цене.</p>
+          </div>
+
+          <div class="field">
+            <label for="about">Пара слов о проекте</label>
+            <textarea id="about" name="about" rows="5"
+              placeholder="Например: делаем ремонт квартир в Москве, нужен сайт с услугами и ценами, форма заявки на замер, домен saytik-remont.ru уже есть."></textarea>
+            <p class="field__hint">Чем больше деталей, тем точнее первая смета. Фото и примеры — ссылкой в поле ниже.</p>
+          </div>
+
+          <div class="field">
+            <label for="link">Ссылка на примеры или референсы</label>
+            <input type="url" id="link" name="link" inputmode="url" placeholder="https://">
+            <p class="field__hint">Необязательно. Подойдёт ссылка на сайт, который нравится, или на папку с фото.</p>
+          </div>
+        </div>
+
+        <div class="form__block">
+          <p class="form__step">Шаг 3</p>
+          <h2 class="form__title">Согласие</h2>
+          <label class="agree">
+            <input type="checkbox" id="agree" name="agree" required>
+            <span>
+              Согласен на обработку указанных данных для связи по заявке.
+              Они не передаются третьим лицам и удаляются по вашему запросу.
+              <b class="req" aria-hidden="true">*</b>
+            </span>
+          </label>
+          <p class="field__error" id="agreeError" role="alert" hidden>Без согласия отправить заявку не получится.</p>
+        </div>
+
+        <div class="form__submit">
+          <button class="btn btn--primary btn--lg" type="submit" id="submitBtn">Отправить заявку</button>
+          <p class="form__note">
+            Нажимая кнопку, вы ничего не оплачиваете. Сначала расчёт, потом решение.
+          </p>
+        </div>
+
+        <p class="form__status" id="formStatus" role="status" aria-live="polite" hidden></p>
+      </form>
+
+      <!-- Показывается, если автоматическая отправка не сработала -->
+      <div class="fallback" id="fallback" hidden>
+        <h2>Заявка не отправилась автоматически</h2>
+        <p>
+          Скорее всего, сеть или блокировщик помешали запросу. Ничего не потеряно —
+          отправьте заявку одним из способов ниже, всё уже собрано за вас.
+        </p>
+        <div class="fallback__actions">
+          <a class="btn btn--primary" id="tgFallback" href="#" target="_blank" rel="noopener">Написать в Telegram</a>
+          <a class="btn btn--ghost" id="mailFallback" href="#">Отправить письмом</a>
+        </div>
+        <p class="fallback__note" id="fallbackText"></p>
+      </div>
+    </div>
+
+    <!-- ==================== БОКОВАЯ КОЛОНКА ==================== -->
+    <aside class="order-side">
+      <div class="side-card">
+        <p class="side-card__label">Что дальше</p>
+        <ol class="side-steps">
+          <li><b>Свяжусь</b><span>В тот же день, в который вы оставили заявку.</span></li>
+          <li><b>Уточню задачу</b><span>Несколько вопросов: что за бизнес, что должно быть на сайте, есть ли тексты и фото.</span></li>
+          <li><b>Пришлю смету</b><span>По пунктам, со сроком. Дальше решаете вы — предоплаты до этого нет.</span></li>
+        </ol>
+      </div>
+
+      <div class="side-card">
+        <p class="side-card__label">Ориентир по стоимости</p>
+        <ul class="side-prices">
+          <li><span>Лендинг-экспресс</span><b>от 15 000 ₽</b></li>
+          <li><span>Лендинг</span><b>от 30 000 ₽</b></li>
+          <li><span>Сайт-визитка</span><b>от 55 000 ₽</b></li>
+          <li><span>Корпоративный сайт</span><b>от 90 000 ₽</b></li>
+          <li><span>Каталог / магазин</span><b>от 150 000 ₽</b></li>
+        </ul>
+        <a class="side-link" href="index.html#prices">Полный прайс-лист →</a>
+      </div>
+
+      <div class="side-card">
+        <p class="side-card__label">Не хочется форму</p>
+        <p class="side-text">Напишите напрямую — отвечаю в рабочее время.</p>
+        <p class="side-contacts">
+          <a data-contact="phone" href="tel:+79000000000">+7 (900) 000-00-00</a>
+          <a data-contact="email" href="mailto:hello@saytik.ru">hello@saytik.ru</a>
+          <a data-contact="telegram" href="https://t.me/saytik" target="_blank" rel="noopener">@saytik</a>
+        </p>
+      </div>
+
+      <div class="side-card side-card--quiet">
+        <p class="side-text">
+          Работаю по договору или счёту. Если удобнее на карту — так тоже можно,
+          но по договору вы всё равно сможете вернуть деньги, если что-то пойдёт не так.
+        </p>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__bottom" style="margin-top:0;padding-top:0;border-top:0">
+    <p>© <span id="year">2026</span> Сайтик. Все права защищены.</p>
+    <p><a href="index.html">Вернуться на главную</a></p>
+  </div>
+</footer>
+
+<script src="assets/js/site.config.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/order.js"></script>
+</body>
+</html>
