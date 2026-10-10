@@ -44,6 +44,25 @@ function doPost(e) {
     var sheet = getSheet_();
     ensureHeader_(sheet);
     sheet.appendRow(rowFrom_(data));
+    // Направить письмо с уведомлением о новом заказе
+    try {
+      MailApp.sendEmail({
+        to: "andreydragon22813@gmail.com",
+        subject: "Новая заявка " + (data.number || ""),
+        textBody: "Новая заявка с сайта Сайтик\n\n" +
+          "Номер: " + (data.number || "") + "\n" +
+          "Имя: " + (data.name || "") + "\n" +
+          "Контакт: " + (data.contact || "") + "\n" +
+          "Тип: " + (data.type || "") + "\n" +
+          "Бюджет: " + (data.budget || "") + "\n" +
+          "Срок: " + (data.deadline || "") + "\n" +
+          "О проекте: " + (data.about || "") + "\n" +
+          "Ссылка: " + (data.link || "") + "\n" +
+          "Дата получения: " + (data.created || "")
+      });
+    } catch (emailError) {
+      Logger.log("Ошибка отправки письма: " + emailError);
+    }
     return json_({ ok: true, number: data.number || "" });
   } catch (error) {
     return json_({ ok: false, error: String(error && error.message ? error.message : error) });
