@@ -12,6 +12,9 @@
 
 var SPREADSHEET_ID = "1gVCfz4RpoJ-sUxKdmLAJf9tE-mhsCpgLsrBvMGkR2Hw";
 var SHEET_NAME = "Лист1";
+// Почта, указанная на сайте (assets/js/site.config.js → email).
+// Apps Script работает отдельно от сайта, поэтому при смене адреса обновите оба файла.
+var NOTIFICATION_EMAIL = "andreydragon22813@gmail.com";
 var HEADERS = [
   "номер",
   "дата",
@@ -39,17 +42,29 @@ function doGet() {
 function doPost(e) {
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
+  var data;
   try {
-    var data = parseBody_(e);
+    data = parseBody_(e);
     var sheet = getSheet_();
     ensureHeader_(sheet);
     sheet.appendRow(rowFrom_(data));
-    return json_({ ok: true, number: data.number || "" });
   } catch (error) {
     return json_({ ok: false, error: String(error && error.message ? error.message : error) });
   } finally {
     lock.releaseLock();
   }
+
+  // Только после успешной записи: письмо без данных клиента, таблицу не меняем.
+  // Ошибка почты не должна превращать сохранённую заявку в «неотправленную»:
+  // иначе посетитель повторит отправку и появится дубликат строки.
+  var notificationSent = true;
+  try {
+    MailApp.sendEmail(NOTIFICATION_EMAIL, "Новая заявка", "Пришла новая заявка.");
+  } catch (error) {
+    notificationSent = false;
+    Logger.log("Не удалось отправить уведомление о заявке: " + error);
+  }
+  return json_({ ok: true, number: data.number || "", notificationSent: notificationSent });
 }
 
 function parseBody_(e) {
