@@ -234,11 +234,6 @@ function sendSheets(order) {
 
 function deliveryChannels() {
   var list = [];
-  if (CFG.sendToTelegram !== false &&
-      String(CFG.botToken || "").trim() &&
-      recipients().length) {
-    list.push("telegram");
-  }
   if (String(CFG.sheetsWebhook || "").trim()) list.push("sheets");
   return list;
 }
@@ -251,8 +246,7 @@ function deliver(order) {
   }
 
   var jobs = channels.map(function (name) {
-    var job = name === "sheets" ? sendSheets(order) : sendTelegram(order);
-    return job.then(
+    return sendSheets(order).then(
       function () { return { ok: true, name: name }; },
       function (error) { return { ok: false, name: name, error: error }; }
     );
@@ -306,8 +300,8 @@ function showFallback(order, reason) {
   var box = document.getElementById("fallback");
   if (!box) return;
 
-  document.getElementById("tgFallback").setAttribute("href", telegramDeepLink(order));
-  document.getElementById("mailFallback").setAttribute("href", mailtoLink(order));
+  var mailBtn = document.getElementById("mailFallback");
+  if (mailBtn) mailBtn.setAttribute("href", mailtoLink(order));
 
   var note = document.getElementById("fallbackText");
   if (note) {
