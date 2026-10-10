@@ -4,16 +4,12 @@
 
    Как работает отправка:
 
-     заполнили форму → проверка полей → api.telegram.org/bot<ТОКЕН>/sendMessage
-                                             ↓ не получилось
+     заполнили форму → проверка полей → Google Таблица (sheetsWebhook)
+                                             ↓ таблица не ответила
                        запасные кнопки: написать в Telegram / отправить письмом
 
-   Сервер не нужен: браузер обращается к Bot API сам, сайт может лежать
-   где угодно (GitHub Pages, папка на хостинге). Токен при этом виден в
-   исходном коде — поэтому в site.config.js написано, как с этим жить.
-
-   Если токен и chat_id не заполнены, отправка не ломает страницу: клиенту
-   сразу показываются запасные кнопки с уже собранным текстом заявки.
+   Telegram-бот по умолчанию выключен (SAYTIK.sendToTelegram = false).
+   Сервер не нужен: браузер сам стучится в веб-приложение Apps Script.
    ========================================================================= */
 
 var CFG = (typeof globalThis !== "undefined" && globalThis.SAYTIK) || {};
@@ -190,6 +186,88 @@ function sendTelegram(order) {
   });
 
   return Promise.all(jobs);
+}
+
+/* ---------------------------------------------------------------------------
+   3b. Архив в Google Таблице через Apps Script (sheets.gs)
+   ------------------------------------------------------------------------ */
+function buildSheetsPayload(order) {
+  return {
+    number: order.number,
+    created: order.createdText,
+    name: order.name || "",
+    contact: order.contact || "",
+    kind: order.kindLabel || "",
+    type: order.type || "",
+    budget: order.budget || "",
+    deadline: order.deadline || "",
+    about: order.about || "",
+    link: order.link || "",
+    page: typeof location !== "undefined" && location.href ? location.href : ""
+  };
+}
+
+function sendSheets(order) {
+  var url = String(CFG.sheetsWebhook || "").trim();
+  if (!url) return Promise.reject(new Error("не задан sheetsWebhook"));
+
+  /* text/plain — без preflight. JSON в application/json браузер сначала
+     спрашивает CORS, а ответ Apps Script на OPTIONS пустой. */
+  return fetch(url, {
+    method: "POST",
+    redirect: "follow",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(buildSheetsPayload(order))
+  }).then(function (response) {
+    if (response.type === "opaque") return { ok: true };
+    if (!response.ok) throw new Error("таблица ответила " + response.status);
+    return response.text().then(function (text) {
+      var parsed = {};
+      try { parsed = JSON.parse(text); } catch (error) { parsed = {}; }
+      if (parsed.ok === false) {
+        throw new Error(parsed.error || "таблица отклонила заявку");
+      }
+      return parsed;
+    });
+  });
+}
+
+function deliveryChannels() {
+  var list = [];
+  if (CFG.sendToTelegram !== false &&
+      String(CFG.botToken || "").trim() &&
+      recipients().length) {
+    list.push("telegram");
+  }
+  if (String(CFG.sheetsWebhook || "").trim()) list.push("sheets");
+  return list;
+}
+
+/* Успех, если сработал хотя бы один настроенный канал. */
+function deliver(order) {
+  var channels = deliveryChannels();
+  if (!channels.length) {
+    return Promise.reject(new Error("не задан sheetsWebhook"));
+  }
+
+  var jobs = channels.map(function (name) {
+    var job = name === "sheets" ? sendSheets(order) : sendTelegram(order);
+    return job.then(
+      function () { return { ok: true, name: name }; },
+      function (error) { return { ok: false, name: name, error: error }; }
+    );
+  });
+
+  return Promise.all(jobs).then(function (results) {
+    var ok = 0;
+    var lastError = null;
+    for (var i = 0; i < results.length; i++) {
+      if (results[i].ok) ok++;
+      else lastError = results[i].error;
+    }
+    if (!ok) throw lastError || new Error("не отправилось ни в один канал");
+    return results;
+  });
 }
 
 /* ---------------------------------------------------------------------------
@@ -372,7 +450,7 @@ function handleSubmit(event) {
   toggleBusy(true);
   setStatus("Отправляю заявку…");
 
-  sendTelegram(order)
+  deliver(order)
     .then(function () {
       toggleBusy(false);
       form.reset();
@@ -437,8 +515,10 @@ if (typeof module !== "undefined" && module.exports) {
     collect: collect,
     buildText: buildText,
     buildTelegramHtml: buildTelegramHtml,
+    buildSheetsPayload: buildSheetsPayload,
     telegramDeepLink: telegramDeepLink,
     mailtoLink: mailtoLink,
-    recipients: recipients
+    recipients: recipients,
+    deliveryChannels: deliveryChannels
   };
 }

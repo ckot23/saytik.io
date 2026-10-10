@@ -184,6 +184,107 @@ check("пустые настройки дают пустой список пол
   eq(Order.recipients().length, 0);
 });
 
+console.log("\nGoogle Таблица");
+
+check("полезная нагрузка содержит номер, имя и контакт", () => {
+  const payload = Order.buildSheetsPayload(sample);
+  eq(payload.number, "ST-20261008-1234");
+  eq(payload.name, "Андрей");
+  eq(payload.contact, "+7 905 495-96-12");
+  eq(payload.kind, "телефон");
+  eq(payload.created, "08.10.2026 14:30");
+  eq(payload.about, "Делаем ремонт квартир");
+  eq(payload.link, "https://example.com");
+  eq(payload.page, "", "в Node нет location — страница пустая");
+});
+
+check("пустые поля не превращаются в undefined", () => {
+  const payload = Order.buildSheetsPayload(Object.assign({}, sample, { about: "", link: "", name: "" }));
+  eq(payload.about, "");
+  eq(payload.link, "");
+  eq(payload.name, "");
+});
+
+check("без webhook таблица не входит в каналы", () => {
+  const webhook = globalThis.SAYTIK.sheetsWebhook;
+  globalThis.SAYTIK.sheetsWebhook = "";
+  const list = Order.deliveryChannels();
+  if (list.indexOf("sheets") !== -1) throw new Error("пустой webhook не должен включать таблицу");
+  globalThis.SAYTIK.sheetsWebhook = webhook;
+});
+
+check("с webhook единственный канал — таблица", () => {
+  const flag = globalThis.SAYTIK.sendToTelegram;
+  const webhook = globalThis.SAYTIK.sheetsWebhook;
+  globalThis.SAYTIK.sendToTelegram = false;
+  globalThis.SAYTIK.sheetsWebhook = "https://script.google.com/macros/s/demo/exec";
+  eq(Order.deliveryChannels().join(","), "sheets");
+  globalThis.SAYTIK.sendToTelegram = flag;
+  globalThis.SAYTIK.sheetsWebhook = webhook;
+});
+
+check("Telegram выключен даже при живом токене", () => {
+  const flag = globalThis.SAYTIK.sendToTelegram;
+  const token = globalThis.SAYTIK.botToken;
+  const chat = globalThis.SAYTIK.botChatId;
+  const webhook = globalThis.SAYTIK.sheetsWebhook;
+  globalThis.SAYTIK.sendToTelegram = false;
+  globalThis.SAYTIK.botToken = "x";
+  globalThis.SAYTIK.botChatId = "1";
+  globalThis.SAYTIK.sheetsWebhook = "https://script.google.com/macros/s/demo/exec";
+  eq(Order.deliveryChannels().join(","), "sheets");
+  globalThis.SAYTIK.sendToTelegram = flag;
+  globalThis.SAYTIK.botToken = token;
+  globalThis.SAYTIK.botChatId = chat;
+  globalThis.SAYTIK.sheetsWebhook = webhook;
+});
+
+check("Telegram включается только явным sendToTelegram", () => {
+  const flag = globalThis.SAYTIK.sendToTelegram;
+  const token = globalThis.SAYTIK.botToken;
+  const chat = globalThis.SAYTIK.botChatId;
+  const webhook = globalThis.SAYTIK.sheetsWebhook;
+  globalThis.SAYTIK.sendToTelegram = true;
+  globalThis.SAYTIK.botToken = "x";
+  globalThis.SAYTIK.botChatId = "1";
+  globalThis.SAYTIK.sheetsWebhook = "https://script.google.com/macros/s/demo/exec";
+  eq(Order.deliveryChannels().join(","), "telegram,sheets");
+  globalThis.SAYTIK.sendToTelegram = flag;
+  globalThis.SAYTIK.botToken = token;
+  globalThis.SAYTIK.botChatId = chat;
+  globalThis.SAYTIK.sheetsWebhook = webhook;
+});
+
+check("в конфиге прописана эта таблица", () => {
+  const fs = require("fs");
+  const source = fs.readFileSync(path.join(__dirname, "..", "assets", "js", "site.config.js"), "utf8");
+  if (source.indexOf("1gVCfz4RpoJ-sUxKdmLAJf9tE-mhsCpgLsrBvMGkR2Hw") === -1) {
+    throw new Error("нет id таблицы");
+  }
+  if (!/sendToTelegram\s*:\s*false/.test(source)) {
+    throw new Error("Telegram должен быть выключен");
+  }
+});
+
+check("sheetsWebhook указывает на веб-приложение таблицы", () => {
+  const fs = require("fs");
+  const source = fs.readFileSync(path.join(__dirname, "..", "assets", "js", "site.config.js"), "utf8");
+  if (source.indexOf("AKfycbyZ-_q_ZO4dpj8SV_mIh7phn_N7bdz-IgclMPsatar8FhpAGt-yer9zoZwaZhp7uDuB0A") === -1) {
+    throw new Error("нет URL веб-приложения");
+  }
+});
+
+check("sheets.gs пишет в Лист1 этой таблицы", () => {
+  const fs = require("fs");
+  const source = fs.readFileSync(path.join(__dirname, "..", "sheets.gs"), "utf8");
+  if (source.indexOf("function doPost") === -1) throw new Error("нет doPost");
+  if (source.indexOf("Лист1") === -1) throw new Error("нет имени листа");
+  if (source.indexOf("1gVCfz4RpoJ-sUxKdmLAJf9tE-mhsCpgLsrBvMGkR2Hw") === -1) {
+    throw new Error("нет id таблицы");
+  }
+  if (source.indexOf("appendRow") === -1) throw new Error("нет записи строки");
+});
+
 console.log("\nМинимальный заказ и срок из прайса");
 
 check("в тексте README совпадают 15 000 ₽ и 5 дней", () => {
