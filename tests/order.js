@@ -239,7 +239,7 @@ check("Telegram выключен даже при живом токене", () =>
   globalThis.SAYTIK.sheetsWebhook = webhook;
 });
 
-check("Telegram включается только явным sendToTelegram", () => {
+check("Telegram больше не является каналом доставки", () => {
   const flag = globalThis.SAYTIK.sendToTelegram;
   const token = globalThis.SAYTIK.botToken;
   const chat = globalThis.SAYTIK.botChatId;
@@ -248,7 +248,7 @@ check("Telegram включается только явным sendToTelegram", ()
   globalThis.SAYTIK.botToken = "x";
   globalThis.SAYTIK.botChatId = "1";
   globalThis.SAYTIK.sheetsWebhook = "https://script.google.com/macros/s/demo/exec";
-  eq(Order.deliveryChannels().join(","), "telegram,sheets");
+  eq(Order.deliveryChannels().join(","), "sheets");
   globalThis.SAYTIK.sendToTelegram = flag;
   globalThis.SAYTIK.botToken = token;
   globalThis.SAYTIK.botChatId = chat;
