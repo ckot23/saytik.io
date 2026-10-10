@@ -31,20 +31,21 @@ var SAYTIK = {
   warranty: "14 дней гарантии на баги",
   minDays: 5,
 
-  /* --- Отправка заявок в Telegram --------------------------------------
-     ⚠️  Токен лежит в исходном коде сайта — его видит любой, кто открыл
-     страницу. Правила, из-за которых это допустимо:
-       • заведите ОТДЕЛЬНОГО бота только для заявок, не личного;
-       • не давайте ему права администратора в каналах и группах;
-       • если бот начнёт «вести себя странно» — /revoke у @BotFather и
-         впишите новый токен сюда.
-     Пока обе строки пустые, заявка не уходит в Telegram, а клиенту
-     показывается запасной вариант: кнопка «написать в Telegram» и
-     отправка письма на почту. Так сайт работает даже без бота.
-  ------------------------------------------------------------------------ */
-  botToken: "8589128917:AAGzIvm27OPXM0Tqo4CXx2HtZOtXvYIvs3o",   /* токен от @BotFather → /mybots → ваш бот → API Token */
-  botChatId: "7114829971",  /* ваш chat_id: напишите боту /id или откройте @userinfobot */
-  botUsername: "", /* юзернейм бота без @ — для запасной ссылки t.me/<bot>?start=... */
+  /* --- Telegram --------------------------------------------------------
+     Заявки в бота больше не уходят: sendToTelegram = false.
+     Кнопки «написать в Telegram / письмом» остаются только как запас,
+     если таблица не ответила. */
+  sendToTelegram: false,
+  botToken: "8589128917:AAGzIvm27OPXM0Tqo4CXx2HtZOtXvYIvs3o",
+  botChatId: "7114829971",
+  botUsername: "",
+
+  /* --- Куда писать заявки: эта Google Таблица --------------------------
+     https://docs.google.com/spreadsheets/d/1gVCfz4RpoJ-sUxKdmLAJf9tE-mhsCpgLsrBvMGkR2Hw/edit
+     Ссылка /edit сайту не подходит — нужен URL веб-приложения из sheets.gs.
+     Как получить sheetsWebhook: README, раздел «Google Таблица». */
+  spreadsheetId: "1gVCfz4RpoJ-sUxKdmLAJf9tE-mhsCpgLsrBvMGkR2Hw",
+  sheetsWebhook: "https://script.google.com/macros/s/AKfycbyZ-_q_ZO4dpj8SV_mIh7phn_N7bdz-IgclMPsatar8FhpAGt-yer9zoZwaZhp7uDuB0A/exec",
 
   /* Пауза перед повторной отправкой формы, мс — защита от спама */
   resendDelay: 2000
