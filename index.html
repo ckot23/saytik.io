@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Сайтик — разработка сайтов под ключ от 15 000 ₽</title>
 <meta name="description" content="Сайтик — разработка сайтов под ключ в России. Лендинги, сайты-визитки, корпоративные сайты и интернет-магазины. Цены от 15 000 ₽, срок от 5 дней, адаптив, аналитика и гарантия 14 дней.">
-<meta name="keywords" content="разработка сайтов, создание сайта, лендинг под ключ, сайт-визитка, корпоративный сайт, интернет-магазин, цены на сайт">
 <link rel="canonical" href="https://saytik.ru/">
 
 <meta property="og:type" content="website">
@@ -13,18 +12,22 @@
 <meta property="og:title" content="Сайтик — разработка сайтов под ключ от 15 000 ₽">
 <meta property="og:description" content="Лендинги, сайты-визитки и магазины. Срок от 5 дней, цена от 15 000 ₽, гарантия 14 дней.">
 <meta property="og:url" content="https://saytik.ru/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:locale" content="ru_RU">
+<meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#0b0d14">
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="preload" href="assets/fonts/manrope-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
+  "@id": "https://saytik.ru/#business",
+  "url": "https://saytik.ru/",
+  "sameAs": ["https://t.me/ckot_23"],
   "name": "Сайтик",
   "description": "Разработка сайтов под ключ: лендинги, сайты-визитки, корпоративные сайты, интернет-магазины.",
   "areaServed": "RU",
@@ -41,7 +44,7 @@
 <!-- ===================== ШАПКА ===================== -->
 <header class="header" id="header">
   <div class="wrap header__inner">
-    <a class="logo" href="index.html">
+    <a class="logo" href="./">
       <span class="logo__mark" aria-hidden="true">
         <svg viewBox="0 0 32 32" width="32" height="32" fill="none">
           <rect x="1.5" y="1.5" width="29" height="29" rx="9" stroke="currentColor" stroke-width="2"/>
@@ -77,7 +80,7 @@
   <div class="wrap hero__inner">
     <div class="hero__text">
       <p class="eyebrow"><span class="dot"></span> Набор проектов на текущий месяц</p>
-      <h1>Сайт, который <span class="grad">приносит заявки</span>, а не просто висит в интернете</h1>
+      <h1>Разработка сайтов под ключ, которые <span class="grad">приносят заявки</span></h1>
       <p class="lead">
         Разрабатываем лендинги, сайты-визитки, корпоративные сайты и интернет-магазины.
         Прозрачный прайс, фиксированная смета и срок от 5 дней — без «сначала посчитаем, потом скажем».
@@ -480,7 +483,7 @@
 <footer class="footer">
   <div class="wrap footer__inner">
     <div class="footer__col">
-      <a class="logo logo--footer" href="index.html">
+      <a class="logo logo--footer" href="./">
         <span class="logo__mark" aria-hidden="true">
           <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
             <rect x="1.5" y="1.5" width="29" height="29" rx="9" stroke="currentColor" stroke-width="2"/>
@@ -507,8 +510,8 @@
 
     <div class="footer__col" id="footerContacts">
       <h3>Контакты</h3>
-      <p class="footer__note" data-contact="phone">+7 (905) 495-96-12</p>
-      <p class="footer__note" data-contact="email">andreydragon22813@gmail.com</p>
+      <p class="footer__note" data-contact="phone"><a href="tel:+79054959612">+7 (905) 495-96-12</a></p>
+      <p class="footer__note" data-contact="email"><a href="mailto:andreydragon22813@gmail.com">andreydragon22813@gmail.com</a></p>
       <p class="footer__note" data-contact="telegram"><a href="https://t.me/ckot_23">@ckot_23</a></p>
     </div>
   </div>
@@ -519,7 +522,7 @@
   </div>
 </footer>
 
-<script src="assets/js/site.config.js"></script>
-<script src="assets/js/main.js"></script>
+<script defer src="assets/js/site.config.js"></script>
+<script defer src="assets/js/main.js"></script>
 </body>
 </html>
