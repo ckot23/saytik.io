@@ -1,0 +1,35 @@
+"use strict";
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const { execFileSync } = require('node:child_process');
+execFileSync(process.execPath, ['scripts/build.js'], {stdio:'inherit'});
+const read = file => fs.readFileSync(path.join('dist', file), 'utf8');
+const origin = new URL(require('../site.config.json').url).origin;
+const home = read('index.html');
+const order = read('order.html');
+assert.equal((home.match(/<h1[ >]/g) || []).length, 1);
+assert(home.includes(`rel="canonical" href="${origin}/"`));
+assert(order.includes('content="noindex, follow"'));
+assert(order.includes(`rel="canonical" href="${origin}/order.html"`));
+assert(read('robots.txt').includes(`Sitemap: ${origin}/sitemap.xml`));
+assert(!read('robots.txt').includes('Disallow: /order'));
+assert.equal((read('sitemap.xml').match(/<loc>/g) || []).length, 1);
+assert(read('sitemap.xml').includes(`<loc>${origin}/</loc>`));
+assert(!read('sitemap.xml').includes('order.html'));
+assert(!home.includes('fonts.googleapis.com'));
+assert(!home.includes('fonts.gstatic.com'));
+assert(home.includes('href="tel:'));
+assert(home.includes('href="mailto:'));
+const schema = JSON.parse(home.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+assert.equal(schema.url, origin + '/');
+assert.equal(schema.email, require('../assets/js/site.config.js').email);
+for (const html of [home, order]) {
+  for (const match of html.matchAll(/(?:src|href)="(assets\/[^"#?]+)"/g)) assert(fs.existsSync(path.join('dist', match[1])), match[1]);
+  for (const match of html.matchAll(/<script([^>]*) src=/g)) assert(match[1].includes('defer'));
+  assert(!html.includes('href="index.html'));
+}
+assert(home.length < fs.readFileSync('index.html','utf8').length);
+assert(!fs.existsSync('dist/saytik.zip'));
+assert(!fs.existsSync('dist/sheets.gs'));
+console.log('SEO/SSG: все проверки пройдены');

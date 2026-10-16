@@ -5,13 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Заявка на разработку сайта — Сайтик</title>
 <meta name="description" content="Оставьте заявку на разработку сайта: телефон, почта или Telegram. Расчёт стоимости и сроков — в течение рабочего дня. Цены от 15 000 ₽, срок от 5 дней.">
+<link rel="canonical" href="https://saytik.ru/order.html">
 <meta name="robots" content="noindex, follow">
 <meta name="theme-color" content="#0b0d14">
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="preload" href="assets/fonts/manrope-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="page-order">
@@ -20,7 +19,7 @@
 
 <header class="header" id="header">
   <div class="wrap header__inner">
-    <a class="logo" href="index.html">
+    <a class="logo" href="./">
       <span class="logo__mark" aria-hidden="true">
         <svg viewBox="0 0 32 32" width="32" height="32" fill="none">
           <rect x="1.5" y="1.5" width="29" height="29" rx="9" stroke="currentColor" stroke-width="2"/>
@@ -34,11 +33,11 @@
     </a>
 
     <nav class="nav" id="nav" aria-label="Основная навигация">
-      <a href="index.html#services">Услуги</a>
-      <a href="index.html#prices">Цены</a>
-      <a href="index.html#process">Как работаем</a>
-      <a href="index.html#faq">Вопросы</a>
-      <a class="btn btn--ghost btn--sm" href="index.html">На главную</a>
+      <a href="./#services">Услуги</a>
+      <a href="./#prices">Цены</a>
+      <a href="./#process">Как работаем</a>
+      <a href="./#faq">Вопросы</a>
+      <a class="btn btn--ghost btn--sm" href="./">На главную</a>
     </nav>
 
     <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
@@ -52,7 +51,7 @@
 <section class="order-hero">
   <div class="wrap">
     <nav class="crumbs" aria-label="Хлебные крошки">
-      <a href="index.html">Главная</a>
+      <a href="./">Главная</a>
       <span aria-hidden="true">/</span>
       <span aria-current="page">Заявка</span>
     </nav>
@@ -225,7 +224,7 @@
           <li><span>Корпоративный сайт</span><b>от 90 000 ₽</b></li>
           <li><span>Каталог / магазин</span><b>от 150 000 ₽</b></li>
         </ul>
-        <a class="side-link" href="index.html#prices">Полный прайс-лист →</a>
+        <a class="side-link" href="./#prices">Полный прайс-лист →</a>
       </div>
 
       <div class="side-card">
@@ -254,12 +253,12 @@
 <footer class="footer">
   <div class="wrap footer__bottom" style="margin-top:0;padding-top:0;border-top:0">
     <p>© <span id="year">2026</span> Сайтик. Все права защищены.</p>
-    <p><a href="index.html">Вернуться на главную</a></p>
+    <p><a href="./">Вернуться на главную</a></p>
   </div>
 </footer>
 
-<script src="assets/js/site.config.js"></script>
-<script src="assets/js/main.js"></script>
-<script src="assets/js/order.js"></script>
+<script defer src="assets/js/site.config.js"></script>
+<script defer src="assets/js/main.js"></script>
+<script defer src="assets/js/order.js"></script>
 </body>
 </html>
