@@ -39,7 +39,7 @@
 
   --primary: #7c6bff;
   --primary-2: #4ac3ff;
-  --gold: #ffcb63;
+  --violet: #c084fc;
   --green: #3ddc97;
 
   --grad: linear-gradient(120deg, #7c6bff 0%, #4ac3ff 100%);
@@ -246,7 +246,7 @@ p:last-child { margin-bottom: 0; }
   border-top: 1px solid var(--line); padding-top: 26px;
 }
 .hero__facts li { display: grid; gap: 2px; }
-.hero__facts b { font-size: 26px; font-weight: 800; letter-spacing: -.03em; color: var(--gold); }
+.hero__facts b { font-size: 26px; font-weight: 800; letter-spacing: -.03em; color: var(--violet); }
 .hero__facts span { font-size: 13px; color: var(--dim); }
 
 .hero__card { display: flex; justify-content: flex-end; }
@@ -309,7 +309,7 @@ p:last-child { margin-bottom: 0; }
   border-top: 1px solid var(--line);
   font-size: 14px; color: var(--dim);
 }
-.card__meta b { color: var(--gold); font-size: 16px; }
+.card__meta b { color: var(--violet); font-size: 16px; }
 
 /* ---------- Чеклист ---------- */
 .checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
@@ -357,7 +357,7 @@ p:last-child { margin-bottom: 0; }
 .plan__name { margin: 0; font-size: 17px; font-weight: 700; color: var(--muted); }
 .plan__price {
   margin: 8px 0 2px; font-size: 30px; font-weight: 800; letter-spacing: -.04em;
-  color: var(--gold);
+  color: var(--violet);
 }
 .plan__term { margin: 0 0 20px; font-size: 13px; color: var(--dim); }
 .plan ul { list-style: none; padding: 0; margin: 0 0 20px; display: grid; gap: 10px; }
@@ -388,7 +388,7 @@ p:last-child { margin-bottom: 0; }
 }
 .table tbody tr { border-top: 1px solid var(--line); transition: background .2s var(--ease); }
 .table tbody tr:hover { background: rgba(255, 255, 255, .025); }
-.table td:nth-child(2) { color: var(--gold); font-weight: 700; white-space: nowrap; }
+.table td:nth-child(2) { color: var(--violet); font-weight: 700; white-space: nowrap; }
 .table td:nth-child(3) { color: var(--dim); white-space: nowrap; }
 .table-note { margin-top: 16px; font-size: 14px; color: var(--dim); }
 
@@ -541,7 +541,7 @@ p:last-child { margin-bottom: 0; }
   display: block; margin-bottom: 9px;
   font-size: 14px; font-weight: 700; color: var(--text);
 }
-.req { color: var(--gold); }
+.req { color: var(--violet); }
 
 .field input[type="text"],
 .field input[type="url"],
@@ -650,10 +650,10 @@ p:last-child { margin-bottom: 0; }
   font-size: 14px; color: var(--muted);
 }
 .side-prices li:last-child { border-bottom: 0; padding-bottom: 0; }
-.side-prices b { color: var(--gold); white-space: nowrap; }
+.side-prices b { color: var(--violet); white-space: nowrap; }
 
 .side-link { display: inline-block; font-size: 14px; font-weight: 700; color: var(--primary-2); transition: color .2s var(--ease); }
-.side-link:hover { color: var(--gold); }
+.side-link:hover { color: var(--violet); }
 
 .side-text { font-size: 14px; color: var(--muted); }
 .side-contacts { margin: 14px 0 0; display: grid; gap: 8px; }
